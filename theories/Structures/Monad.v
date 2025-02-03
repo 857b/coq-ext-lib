@@ -1,3 +1,4 @@
+From ExtLib.Core Require Universes.
 Require Import ExtLib.Structures.Functor.
 Require Import ExtLib.Structures.Applicative.
 
@@ -5,7 +6,7 @@ Set Implicit Arguments.
 Set Strict Implicit.
 Set Universe Polymorphism.
 
-Class Monad@{d c} (m : Type@{d} -> Type@{c}) : Type :=
+Class Monad@{d c | d < Universes.u_std, c < Universes.u_std} (m : Type@{d} -> Type@{c}) : Type :=
 { ret : forall {t : Type@{d}}, t -> m t
 ; bind : forall {t u : Type@{d}}, m t -> (t -> m u) -> m u
 }.

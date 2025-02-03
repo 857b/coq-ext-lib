@@ -45,7 +45,7 @@ Section keyed.
     end.
 
   Definition alist_find' (k: K) : alist -> option V :=
-    fmap snd ∘ find (rel_dec k ∘ fst).
+    fmap (F := optionF) snd ∘ find (rel_dec k ∘ fst).
 
   Lemma alist_find_alt (m: alist) : forall k: K,
       alist_find k m = alist_find' k m.

@@ -1,9 +1,10 @@
+From ExtLib.Core Require Universes.
 Require Import ExtLib.Structures.Applicative.
 
 Set Implicit Arguments.
 Set Maximal Implicit Insertion.
 
-Polymorphic Class Traversable@{d r} (T : Type@{d} -> Type@{r}) : Type :=
+Polymorphic Class Traversable@{d r | r < Universes.u_std, d < Universes.u_std+} (T : Type@{d} -> Type@{r}) : Type :=
 { mapT : forall {F : Type@{d} -> Type@{r} }
                 {Ap:Applicative@{d r} F} {A B : Type@{d}},
     (A -> F B) -> T A -> F (T B)

@@ -92,7 +92,9 @@ Proof.
 Qed.
 
 
-Global Instance Foldable_list@{u} {T : Type@{u}} : Foldable (list T) T :=
+Definition listF@{u} (A : Type@{u}) : Type@{u} := list A.
+
+Global Instance Foldable_list@{u} {T : Type@{u}} : Foldable (listF T) T :=
   fun _ f x ls => fold_right f x ls.
 
 Require Import ExtLib.Structures.Traversable.
@@ -114,7 +116,7 @@ Section traversable.
     end.
 End traversable.
 
-Global Instance Traversable_list@{} : Traversable list :=
+Global Instance Traversable_list@{d r} : Traversable@{d r} listF :=
 { mapT := @mapT_list }.
 
 Monomorphic Universe listU.

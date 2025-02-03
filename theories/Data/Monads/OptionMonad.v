@@ -6,7 +6,10 @@ Set Strict Implicit.
 Import MonadNotation.
 Local Open Scope monad_scope.
 
-Global Instance Monad_option : Monad option :=
+
+Definition optionF (A : Type) : Type := option A.
+
+Global Instance Monad_option : Monad optionF :=
 { ret  := @Some
 ; bind := fun _ _ c1 c2 => match c1 with
                              | None => None
@@ -14,10 +17,10 @@ Global Instance Monad_option : Monad option :=
                            end
 }.
 
-Global Instance Zero_option : MonadZero option :=
+Global Instance Zero_option : MonadZero optionF :=
 { mzero := @None }.
 
-Global Instance Plus_option : MonadPlus option :=
+Global Instance Plus_option : MonadPlus optionF :=
 { mplus _A _B aM bM :=
     match aM with
     | None => liftM inr bM
@@ -25,7 +28,7 @@ Global Instance Plus_option : MonadPlus option :=
     end
 }.
 
-Global Instance Exception_option : MonadExc unit option :=
+Global Instance Exception_option : MonadExc unit optionF :=
 { raise _ _   := None
 ; catch _ c h := match c with
                  | None   => h tt
