@@ -1,2 +1,5 @@
 (lang dune 3.8)
 (using coq 0.8)
+(name coq-ext-lib)
+(generate_opam_files)
+(package (name coq-ext-lib))
