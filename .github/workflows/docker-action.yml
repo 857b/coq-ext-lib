@@ -28,7 +28,8 @@ jobs:
           - 'coqorg/coq:8.18'
           - 'coqorg/coq:8.19'
           - 'coqorg/coq:8.20'
-          - 'coqorg/coq:dev'
+          - 'rocq/rocq-prover:9.0'
+          - 'rocq/rocq-prover:dev'
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -46,7 +47,7 @@ jobs:
           after_script: |
             startGroup "Test dependants"
               PINS=$(opam list -s --pinned --columns=package | xargs | tr ' ' ,)
-              PACKAGES=`opam list -s --depends-on coq-ext-lib --coinstallable-with $PINS`
+              PACKAGES="coq-itree coq-itree-extra coq-json coq-parsec coq-quickchick coq-wasm "
               for PACKAGE in $PACKAGES
               do DEPS_FAILED=false
                  opam install -y --deps-only $PACKAGE || DEPS_FAILED=true
@@ -60,7 +61,7 @@ jobs:
             endGroup
           before_script: |
             startGroup "Workaround permission issue"
-              sudo chown -R coq:coq .
+              sudo chown -R 1000:1000 .
             endGroup
           export: 'OPAMWITHTEST OPAMCONFIRMLEVEL'
         env:
